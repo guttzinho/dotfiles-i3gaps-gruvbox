@@ -1,0 +1,45 @@
+default_icon: "\ue163"
+padding: 1
+capitalize: true
+
+workspace: # placeholder
+  enabled: true
+  icon:
+  title: Desktop
+
+mappings:
+- class: google-chrome
+  title: Google Chrome
+  icon: 
+- class: brave-browser
+  title: Brave
+  icon: 
+- class: org.gnome.Nautilus
+  title: Files
+  icon: 
+- class: firefox
+  title: Firefox
+  icon: 
+- class: kitty
+  title: Kitty
+  icon: 
+- class: imv
+  title: Imv
+  icon: 
+- class: discord
+  title: Discord
+  icon: ﭮ
+- class: spotify
+  title: Spotify
+  icon: 
+- class: steam
+  title: Steam
+  icon: 
+- class: lutris
+  title: Lutris
+  icon: 
+  show_native_title: false
+
+native_title_separators:
+  start: "<"
+  end: ">"

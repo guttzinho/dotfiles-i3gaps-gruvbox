@@ -1,0 +1,207 @@
+#Needed for i3-gaps
+for_window [class="^.*"] border pixel 0
+gaps inner 7
+gaps outer 5
+border_radius 4
+
+
+bindsym $Alt+z		gaps outer current plus 5
+bindsym $ALT+Shift+z	gaps outer current minus 5
+
+
+set $mod Mod4
+set $Alt Mod1
+
+
+# Disable screentimeout (screensaver)
+exec_always xset s off
+exec_always xset -dpms
+
+# enable floating mode
+for_window [class="metadata-cleaner"] floating enable
+for_window [class="ProtonUp-Qt"] floating enable
+for_window [class="Cawbird"] floating enable
+for_window [class="Bitwarden"] floating enable
+for_window [title="ripdrag"] floating enable
+for_window [class="guiscrcpy"] floating enable
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:Nota Sans Nerd Font 8
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $Alt+w kill
+
+# move windows FOCUS
+bindsym $Alt+Left focus left
+bindsym $Alt+Down focus down
+bindsym $Alt+Up focus up
+bindsym $Alt+Right focus right
+
+bindsym $Alt+h focus left
+bindsym $Alt+j focus down
+bindsym $Alt+k focus up
+bindsym $Alt+l focus right
+
+# move windows
+bindsym $Alt+shift+Left move left
+bindsym $Alt+shift+Down move down
+bindsym $Alt+shift+Up move up
+bindsym $Alt+shift+Right move right
+
+bindsym $Alt+shift+h move left
+bindsym $Alt+shift+j move down
+bindsym $Alt+shift+k move up
+bindsym $Alt+shift+l move right
+
+# enter fullscreen mode for the focused container
+bindsym $Alt+e fullscreen toggle
+
+# toggle tiling / floating
+bindsym $mod+q floating toggle
+
+# assing apps to workspaces
+exec flatpak run com.spotify.Client
+for_window [class="Spotify"] move to workspace spotify
+bindsym $Alt+s workspace spotify
+
+#exec brave-browser
+#for_window [class="Brave-browser"] move to workspace browser
+#bindsym $Alt+b workspace browser
+
+exec firefox-x11
+for_window [class="firefox"] move to workspace browser
+bindsym $Alt+b workspace browser
+
+exec discord
+for_window [class="discord"] move to workspace discord
+bindsym $Alt+v workspace discord
+
+# switch to workspace
+bindsym $Alt+1 workspace 1
+bindsym $Alt+2 workspace 2
+bindsym $Alt+3 workspace 3
+bindsym $Alt+4 workspace 4
+bindsym $Alt+5 workspace 5
+bindsym $Alt+6 workspace 6
+bindsym $Alt+7 workspace 7
+bindsym $Alt+8 workspace 8
+bindsym $Alt+9 workspace 9
+bindsym $Alt+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+1 move container to workspace 1
+bindsym $mod+2 move container to workspace 2
+bindsym $mod+3 move container to workspace 3
+bindsym $mod+4 move container to workspace 4
+bindsym $mod+5 move container to workspace 5
+bindsym $mod+6 move container to workspace 6
+bindsym $mod+7 move container to workspace 7
+bindsym $mod+8 move container to workspace 8
+bindsym $mod+9 move container to workspace 9
+bindsym $mod+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $Alt+shift+r reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+w exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+#set_from_resource $fg foreground
+set $fg "#a9b1d6"
+set $bg "#16161e"
+
+
+# CLASS                 BORDER  BACK    TEXT    INDICATOR
+client.focused          $fg     $fg     $fg     $fg
+client.focused_inactive $bg     $bg     $fg     $bg
+client.unfocused        $bg     $bg     $fg     $bg
+client.urgent           $fg     $bg     $fg     $bg
+client.placeholder      $fg     $bg     $fg     $bg
+
+# Wallpaper settings
+# exec_always feh --recursive --bg-fill --randomize /home/gutt/Pictures/wall/landescape
+exec_always --no-startup-id feh --bg-fill --randomize /home/gutt/Pictures/wall/gruvbox-wallpapers/
+
+# Auto exec settings (basicly reloads with i3)
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/picom/launch.sh
+exec_always systemctl --user restart dunst.service
+exec_always --no-startup-id ~/Documents/scripts/autotiling.py
+exec_always ~/Documents/scripts/polybar/border.sh
+
+# Startup scripts
+exec playerctld
+exec ~/Appimages/PreMiD-Portable.AppImage
+exec /lib64/jellyfin/jellyfin # I know it should not be here.
+
+# exec shortcuts
+
+# apps
+bindsym $Alt+f exec kitty -e ranger
+bindsym $Alt+shift+f exec nautilus
+bindsym $Alt+c exec kitty
+bindsym $Alt+shift+b exec brave-browser
+
+# audio
+bindsym $mod+shift+a exec /home/gutt/Documents/scripts/audio-device-changer
+bindsym XF86AudioNext exec playerctl -p spotify next
+bindsym XF86AudioPlay exec playerctl -p spotify play-pause
+bindsym XF86AudioStop exec playerctl -p spotify play-pause
+bindsym XF86AudioPrev exec playerctl -p spotify previous
+bindsym $mod+equal exec /home/gutt/Documents/scripts/volume+
+bindsym $mod+minus exec /home/gutt/Documents/scripts/volume-
+bindsym $mod+shift+m exec /home/gutt/Documents/scripts/toggle-mute
+
+# others
+bindsym $mod+l exec ~/Documents/scripts/lockscreen.sh
+bindsym Print exec flameshot gui
+bindsym Shift+Print exec flameshot screen
+bindsym $mod+d exec ~/.config/rofi/powermenu/type-2/powermenu.sh
+bindsym $Alt+d exec ~/.config/rofi/launchers/type-2/launcher.sh
+# bindsym $Alt+r exec feh --recursive --bg-fill --randomize /home/gutt/Pictures/wall/cyberpunk-mostly-anime
+bindsym $Alt+x exec polybar-msg cmd toggle
+bindsym $mod+Shift+l exec ~/Documents/scripts/cool-retro-term.sh
+
+# "game mode"
+bindsym $mod+shift+p exec ~/Games/launch.sh
+bindsym $Alt+shift+p exec ~/Games/exit.sh
+
+# disable all shortcuts (for fullscreen apps)
+mode "passthrough" {
+    bindsym $Mod+Escape exec i3-msg "mode" "default"
+	bindsym $mod+shift+a exec /home/gutt/Documents/scripts/audio-device-changer
+	bindsym XF86AudioNext exec playerctl next
+	bindsym XF86AudioPlay exec playerctl play-pause
+	bindsym XF86AudioStop exec playerctl play-pause
+	bindsym XF86AudioPrev exec playerctl previous
+	bindsym $mod+equal exec /home/gutt/Documents/scripts/volume+
+	bindsym $mod+minus exec /home/gutt/Documents/scripts/volume-
+	bindsym $mod+shift+m exec /home/gutt/Documents/scripts/toggle-mute
+}
+bindsym $Mod+Escape exec i3-msg "mode" "passthrough"
+
+# Set Brazillian keyboard
+exec setxkbmap br
+
+# Set monitor
+exec xrandr --output DisplayPort-0 --mode 1366x768
+
